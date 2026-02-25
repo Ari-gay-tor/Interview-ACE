@@ -4,7 +4,7 @@ export async function analyzeAnswer(endpoint, modelName, question, transcript, d
     }
 
     const payload = {
-        model: modelName || 'llama3',
+        model: modelName || 'llama3.2',
         stream: false,
         format: 'json',
         prompt: `You are an expert senior interviewer and career coach. Analyze the following interview answer and provide structured feedback.
@@ -53,6 +53,7 @@ Be constructive but honest. Respond ONLY with the JSON object.`
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             },
             body: JSON.stringify(payload),
         })

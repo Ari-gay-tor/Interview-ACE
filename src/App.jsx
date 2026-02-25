@@ -15,7 +15,7 @@ export default function App() {
     // Default to env var if available (useful for hosted version)
     const envEndpoint = import.meta.env.VITE_LOCAL_AI_ENDPOINT
     if (envEndpoint) {
-      return { endpoint: envEndpoint, modelName: 'llama3' }
+      return { endpoint: envEndpoint, modelName: 'llama3.2' }
     }
     return null
   })
