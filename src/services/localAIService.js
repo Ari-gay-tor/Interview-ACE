@@ -58,12 +58,11 @@ Be constructive but honest. Respond ONLY with the JSON object.`
     try {
         console.log('Diagnostic ping to:', pingEndpoint)
         const ping = await fetch(pingEndpoint, {
-            headers: { 'ngrok-skip-browser-warning': 'true' }
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
         console.log('Ping status:', ping.status)
     } catch (pingErr) {
         console.error('Diagnostic ping failed:', pingErr)
-        // We don't throw here yet, just log to console
     }
 
     let response
@@ -72,7 +71,7 @@ Be constructive but honest. Respond ONLY with the JSON object.`
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify(payload),
         })
@@ -97,8 +96,8 @@ Be constructive but honest. Respond ONLY with the JSON object.`
         console.error('JSON Parse error:', parseErr)
         // If it's not JSON, it might be the Ngrok warning page HTML
         const responseText = await response.text()
-        if (responseText.includes('ngrok-skip-browser-warning')) {
-            throw new Error('Still hitting Ngrok warning page. The bypass header might not be working.')
+        if (responseText.includes('ngrok-skip-browser-warning') || responseText.includes('visit the site')) {
+            throw new Error('Still hitting Ngrok warning page. The X-Requested-With bypass header might not be working.')
         }
         throw new Error('Could not parse AI response as JSON. The server might be sending an error page instead.')
     }
