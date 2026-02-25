@@ -63,14 +63,31 @@ Be constructive but honest. Respond ONLY with the JSON object.`
             body: JSON.stringify(payload),
         })
     } catch (err) {
-        throw new Error(`Failed to connect to local AI. Is Ollama running at ${endpoint}?`)
+        console.error('Fetch error:', err)
+        throw new Error(`Failed to connect to local AI. Network error or CORS block. Is Ollama running and accessible via Ngrok?`)
+    }
+
+    // Handle 204 No Content explicitly
+    if (response.status === 204) {
+        throw new Error('Local AI returned "204 No Content". This often means Ngrok or Ollama is blocking the request (CORS/Preflight). Check your OLLAMA_ORIGINS setting.')
     }
 
     if (!response.ok) {
         throw new Error(`Local AI returned error: ${response.status} ${response.statusText}`)
     }
 
-    const result = await response.json()
+    let result
+    try {
+        result = await response.json()
+    } catch (parseErr) {
+        console.error('JSON Parse error:', parseErr)
+        // If it's not JSON, it might be the Ngrok warning page HTML
+        const responseText = await response.text()
+        if (responseText.includes('ngrok-skip-browser-warning')) {
+            throw new Error('Still hitting Ngrok warning page. The bypass header might not be working.')
+        }
+        throw new Error('Could not parse AI response as JSON. The server might be sending an error page instead.')
+    }
     const text = result.response || ''
 
     const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
