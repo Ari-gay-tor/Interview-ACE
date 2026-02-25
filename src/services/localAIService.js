@@ -47,9 +47,14 @@ Scoring rubric:
 Be constructive but honest. Respond ONLY with the JSON object.`
     }
 
+    const baseUrl = endpoint || 'http://localhost:11434'
+    const finalEndpoint = baseUrl.endsWith('/api/generate')
+        ? baseUrl
+        : `${baseUrl.replace(/\/$/, '')}/api/generate`
+
     let response
     try {
-        response = await fetch(endpoint || 'http://localhost:11434/api/generate', {
+        response = await fetch(finalEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
