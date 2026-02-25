@@ -1,0 +1,218 @@
+/* Recorder Component */
+.recorder {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Waveform */
+.waveform-wrapper {
+    position: relative;
+    background: var(--clr-bg-800);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--clr-border);
+    overflow: hidden;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition-base);
+}
+
+.waveform-wrapper--active {
+    border-color: rgba(124, 58, 237, 0.4);
+    box-shadow: inset 0 0 20px rgba(124, 58, 237, 0.08);
+}
+
+.waveform-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.waveform-idle {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--clr-text-muted);
+    background: transparent;
+}
+
+/* Live transcript */
+.live-transcript {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--clr-primary-dim);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: var(--radius-md);
+    min-height: 46px;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+    animation: pulse-ring 1.2s ease-out infinite;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+.live-text {
+    font-size: 0.9rem;
+    color: var(--clr-text-primary);
+    line-height: 1.55;
+}
+
+.live-placeholder {
+    color: var(--clr-text-muted);
+    font-style: italic;
+}
+
+/* Controls */
+.recorder-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.record-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.record-btn--start {
+    background: linear-gradient(135deg, var(--clr-primary), #5b21b6);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
+}
+
+.record-btn--start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.6);
+}
+
+.record-btn--stop {
+    background: var(--clr-danger-dim);
+    color: var(--clr-danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.record-btn--stop:hover {
+    background: var(--clr-danger);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Mic button icon wrapper */
+.record-btn-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+.mic-icon {
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.pulse-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: rgba(167, 139, 250, 0.25);
+    animation: pulse-mic 2s ease-in-out infinite;
+}
+
+@keyframes pulse-mic {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.1;
+    }
+}
+
+/* Stop square */
+.stop-square {
+    width: 14px;
+    height: 14px;
+    background: var(--clr-danger);
+    border-radius: 3px;
+}
+
+/* Done state */
+.recorder-done-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 28px;
+    background: var(--clr-surface);
+    border: 1px dashed var(--clr-border-strong);
+    border-radius: var(--radius-full);
+}
+
+.done-label {
+    font-size: 0.9rem;
+    color: var(--clr-text-muted);
+}
+
+.done-label--success {
+    color: var(--clr-success);
+}
+
+/* Unsupported */
+.recorder-unsupported {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px;
+    font-size: 0.9rem;
+    color: var(--clr-text-secondary);
+    line-height: 1.6;
+}
+
+.recorder-error {
+    font-size: 0.82rem;
+    color: var(--clr-danger);
+    padding: 4px 0;
+}
