@@ -52,6 +52,20 @@ Be constructive but honest. Respond ONLY with the JSON object.`
         ? baseUrl
         : `${baseUrl.replace(/\/$/, '')}/api/generate`
 
+    const pingEndpoint = baseUrl.replace(/\/api\/generate$/, '').replace(/\/$/, '') + '/api/tags'
+
+    // Diagnostic Ping
+    try {
+        console.log('Diagnostic ping to:', pingEndpoint)
+        const ping = await fetch(pingEndpoint, {
+            headers: { 'ngrok-skip-browser-warning': 'true' }
+        })
+        console.log('Ping status:', ping.status)
+    } catch (pingErr) {
+        console.error('Diagnostic ping failed:', pingErr)
+        // We don't throw here yet, just log to console
+    }
+
     let response
     try {
         response = await fetch(finalEndpoint, {
