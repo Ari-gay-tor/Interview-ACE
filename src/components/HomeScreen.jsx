@@ -28,7 +28,7 @@ export default function HomeScreen({ onStartSession, onOpenApiModal, hasConfig }
                     <span className="gradient-text">Interview</span>
                 </h1>
                 <p className="hero-sub animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                    Speak your answer. Get scored on clarity, structure, depth, and more — instantly processed on your GPU!
+                    Speak your answer. Get scored on clarity, structure, delivery, and more — instantly processed on your GPU!
                 </p>
 
                 {!hasConfig && (

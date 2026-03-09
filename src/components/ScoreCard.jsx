@@ -6,7 +6,6 @@ const DIMENSIONS = [
     { key: 'relevance', label: 'Relevance', icon: '🎯', color: '#06b6d4' },
     { key: 'confidence', label: 'Confidence', icon: '💪', color: '#10b981' },
     { key: 'structure', label: 'Structure', icon: '🏗️', color: '#f59e0b' },
-    { key: 'depth', label: 'Depth', icon: '🔬', color: '#f472b6' },
     { key: 'delivery', label: 'Delivery', icon: '🎙️', color: '#ec4899' },
 ]
 

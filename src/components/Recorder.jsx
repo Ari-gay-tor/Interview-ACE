@@ -13,18 +13,31 @@ export default function Recorder({ status, onRecordingComplete, onStatusChange }
     const CANVAS_W = 600
     const CANVAS_H = 80
 
-    const handleStart = async () => {
+    const handleStart = () => {
         setLocalError(null)
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-            streamRef.current = stream
-            start()
-            startViz(stream)
+            start() // Trigger SpeechRecognition first
             onStatusChange('recording')
         } catch (err) {
-            setLocalError('Microphone access denied. Please allow mic access in your browser.')
+            setLocalError('Speech recognition could not start.')
         }
     }
+
+    // Effect to start visual metrics ONLY after speech recognition is active
+    useEffect(() => {
+        if (isListening && !streamRef.current) {
+            const startMetrics = async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+                    streamRef.current = stream
+                    startViz(stream)
+                } catch (err) {
+                    console.warn('Visual metrics could not start (mic priority given to speech):', err)
+                }
+            }
+            startMetrics()
+        }
+    }, [isListening, startViz])
 
     const handleStop = () => {
         stop()

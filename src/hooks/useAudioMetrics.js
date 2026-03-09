@@ -69,7 +69,8 @@ export default function useAudioMetrics() {
 
             analyze()
         } catch (err) {
-            console.error('Audio metrics error:', err)
+            console.warn('Audio metrics (waveform/stability) could not start:', err)
+            // Don't throw, just log warning. The app can still work without metrics.
         }
     }, [])
 

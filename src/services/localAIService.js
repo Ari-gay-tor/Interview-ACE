@@ -37,14 +37,16 @@ Please evaluate this answer and the delivery. Respond ONLY in valid JSON format:
   "tip": "<one specific, actionable pro tip to make this answer stronger>"
 }
 
-Scoring rubric:
-- clarity: How clearly and understandably the ideas were communicated (1-10)
-- relevance: How directly the answer addressed the interview question (1-10)
-- confidence: Tone, assertiveness, and conviction in the answer (1-10)
-- structure: Logical flow and organization (e.g., STAR method usage) (1-10)
-- delivery: Pacing, use of pauses, and vocal steadiness (1-10)
+Scoring rubric (BE LENIENT and encouraging):
+- clarity: How clearly the ideas were communicated (1-10)
+- relevance: How directly the answer addressed the question (1-10)
+- confidence: Assertiveness and tone (1-10)
+- structure: Organization (e.g., STAR method) (1-10)
+- delivery: Pacing and vocal steadiness (1-10)
 
-Be constructive but honest. Respond ONLY with the JSON object.`
+Mandatory: You MUST provide all 5 scores in the scores object.
+Grading Philosophy: Be a supportive coach. Give nicer grades (A and B) for solid efforts. Only give C or below if the answer is very short or completely off-topic.
+Be constructive and Respond ONLY with the JSON object.`
     }
 
     const baseUrl = endpoint || 'http://localhost:11434'
@@ -86,6 +88,9 @@ Be constructive but honest. Respond ONLY with the JSON object.`
     }
 
     if (!response.ok) {
+        if (response.status === 403) {
+            throw new Error(`Local AI returned "403 Forbidden". This usually means Ollama's OLLAMA_ORIGINS is blocking your browser. Please FORCE-QUIT Ollama from your system tray (right-click icon -> Quit) and restart it to apply the settings. If using Ngrok, ensure you bypass the landing page.`)
+        }
         throw new Error(`Local AI returned error: ${response.status} ${response.statusText}`)
     }
 
@@ -106,10 +111,33 @@ Be constructive but honest. Respond ONLY with the JSON object.`
     const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     try {
-        return JSON.parse(cleaned)
+        const parsed = JSON.parse(cleaned)
+        return normalizeScores(parsed)
     } catch {
         const match = cleaned.match(/\{[\s\S]*\}/)
-        if (match) return JSON.parse(match[0])
+        if (match) {
+            try {
+                return normalizeScores(JSON.parse(match[0]))
+            } catch (e) {
+                throw new Error('Analysis completed but results were poorly formatted. Please try a different model.')
+            }
+        }
         throw new Error('Could not parse AI response. Ensure the model supports JSON format.')
     }
+}
+
+function normalizeScores(obj) {
+    if (!obj.scores) obj.scores = {}
+    const keys = ['clarity', 'relevance', 'confidence', 'structure', 'delivery']
+    keys.forEach(key => {
+        // Ensure every key exists as a number
+        const val = obj.scores[key]
+        if (typeof val === 'string') {
+            obj.scores[key] = parseInt(val.replace(/\D/g, ''), 10) || 5
+        } else if (typeof val !== 'number') {
+            obj.scores[key] = 5 // Fallback mid-score
+        }
+    })
+    if (typeof obj.overall !== 'number') obj.overall = parseInt(obj.overall, 10) || 5
+    return obj
 }
