@@ -1,16 +1,192 @@
-# React + Vite
+# Interview-ACE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### AI-Powered Mock Interview Platform for Real-Time Practice & Feedback
 
-Currently, two official plugins are available:
+Interview-ACE is an AI-driven mock interview platform designed to simulate realistic technical and behavioral interviews, helping users improve communication, confidence, and interview performance through real-time analysis and structured feedback.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The platform conducts interactive interview sessions, evaluates spoken responses, and generates actionable feedback on technical quality, clarity, confidence, pacing, and delivery.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Problem
 
-## Expanding the ESLint configuration
+Preparing for interviews is difficult because candidates often lack:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* Realistic interview simulation
+* Immediate actionable feedback
+* Objective evaluation of communication quality
+* Repeated low-pressure practice opportunities
+
+Most preparation platforms focus only on coding or static question banks. They rarely evaluate **how candidates actually respond in real interview conditions**.
+
+Interview-ACE aims to bridge that gap.
+
+---
+
+## Features
+
+### AI-Powered Mock Interviews
+
+* Simulates realistic interview conversations
+* Supports technical and behavioral interview styles
+* Dynamically adapts follow-up questions based on user responses
+
+### Real-Time Voice Analysis
+
+* Captures spoken responses using browser audio APIs
+* Processes delivery patterns such as:
+
+  * response speed
+  * pauses
+  * filler words
+  * speaking confidence
+
+### Response Evaluation
+
+Analyzes answers based on:
+
+* Relevance
+* Completeness
+* Communication clarity
+* Technical correctness
+* Confidence
+
+### Structured Feedback Generation
+
+Generates detailed post-interview reports including:
+
+* Strengths
+* Weaknesses
+* Suggested improvements
+* Confidence metrics
+* Communication insights
+
+### Performance Tracking
+
+Allows users to track improvement across multiple sessions.
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* React
+* Vite
+* JavaScript / TypeScript
+* Web Audio / Speech APIs
+
+### AI / NLP
+
+* Large Language Models via Ollama
+* Prompt engineering for interview simulation
+* AI-based response scoring
+
+### Backend / Services
+
+* REST APIs
+* Session handling
+* Feedback processing pipeline
+
+### Infrastructure
+
+* Local/Cloud deployment
+* Model serving through Ollama
+
+---
+
+## System Architecture
+
+1. User starts a mock interview session
+2. AI interviewer asks a question
+3. User responds via voice input
+4. Speech is captured and processed
+5. Response content is analyzed using LLMs
+6. Delivery metrics are extracted
+7. Scoring engine generates evaluation
+8. Feedback report is presented to user
+
+---
+
+## Key Engineering Challenges
+
+### Low-Latency AI Response Generation
+
+Maintaining natural conversation flow while minimizing AI response delay.
+
+**Approach:**
+Optimized prompt construction and lightweight model serving for faster inference.
+
+---
+
+### Real-Time Voice Signal Processing
+
+Extracting useful communication metrics from noisy speech input.
+
+**Approach:**
+Used browser audio APIs and processing pipelines to capture timing and speech characteristics.
+
+---
+
+### Multi-Dimensional Scoring
+
+Interview performance cannot be judged solely by correctness.
+
+**Approach:**
+Designed a scoring system combining:
+
+* content quality
+* delivery
+* communication clarity
+* confidence indicators
+
+---
+
+## Why This Project Matters
+
+Interview-ACE goes beyond a typical CRUD application.
+
+This project required designing and integrating:
+
+* real-time user interaction systems
+* AI inference pipelines
+* evaluation heuristics
+* audio processing workflows
+* product-oriented feedback mechanisms
+
+It combines software engineering, AI integration, and user-centric product design.
+
+---
+
+## Future Improvements
+
+* Facial expression analysis
+* Resume-aware interview customization
+* Role-specific interview modes
+* Detailed analytics dashboard
+* Multi-language support
+* Cloud-hosted scalable inference
+
+---
+
+## Demo
+
+Add:
+
+* live deployment link
+* demo video
+* screenshots
+
+---
+
+## Lessons Learned
+
+Building Interview-ACE reinforced important engineering concepts such as:
+
+* AI system design
+* latency-performance tradeoffs
+* prompt engineering
+* real-time data processing
+* designing user-focused feedback systems
+
+This project strengthened both my software engineering and product-thinking skills.
